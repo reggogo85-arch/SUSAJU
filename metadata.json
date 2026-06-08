@@ -1,0 +1,6 @@
+{
+  "name": "신우사주",
+  "description": "사주와 신점의 매력을 결합한 신우 선생의 용한 사주 풀이 및 운세 상담 서비스",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
