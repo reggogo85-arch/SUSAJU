@@ -84,7 +84,27 @@ export default function DailyQuestionBox({ sajuData, userName }: DailyQuestionBo
       });
 
       if (!res.ok) {
-        throw new Error("답변을 구하던 중 우주 주파수에 장애가 발생하였습니다.");
+        let serverError = `답변을 구하던 중 우주 주파수에 장애가 발생하였습니다. (상태코드: ${res.status})`;
+        try {
+          const errorText = await res.text();
+          try {
+            const errJson = JSON.parse(errorText);
+            if (errJson.error) {
+              serverError += ` - ${errJson.error}`;
+            } else if (errJson.message) {
+              serverError += ` - ${errJson.message}`;
+            } else if (errJson.reason) {
+              serverError += ` - ${errJson.reason}`;
+            }
+          } catch {
+            if (errorText && errorText.length < 150) {
+              serverError += ` - ${errorText}`;
+            }
+          }
+        } catch (e) {
+          // ignore reading errorText failure
+        }
+        throw new Error(serverError);
       }
 
       const data = await res.json();

@@ -62,7 +62,27 @@ export default function App() {
       });
 
       if (!response.ok) {
-        throw new Error("우주 기운 조율에 실수가 있었습니다. 잠시만 후에 다시 손을 뻗어 보십시오.");
+        let serverError = `우주 기운 조율에 실수가 있었습니다. (상태코드: ${response.status})`;
+        try {
+          const errorText = await response.text();
+          try {
+            const errJson = JSON.parse(errorText);
+            if (errJson.error) {
+              serverError += ` - ${errJson.error}`;
+            } else if (errJson.message) {
+              serverError += ` - ${errJson.message}`;
+            } else if (errJson.reason) {
+              serverError += ` - ${errJson.reason}`;
+            }
+          } catch {
+            if (errorText && errorText.length < 150) {
+              serverError += ` - ${errorText}`;
+            }
+          }
+        } catch (e) {
+          // ignore reading errorText failure
+        }
+        throw new Error(serverError);
       }
 
       const data = await response.json();

@@ -40,8 +40,17 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY" && apiKey !== "") {
 
 // Dynamically retrieve Gemini AI client based on custom key or environment variables
 function getAiClient(customKey?: string): GoogleGenAI | null {
-  const activeKey = customKey || process.env.GEMINI_API_KEY;
-  if (!activeKey || activeKey === "MY_GEMINI_API_KEY" || activeKey === "") {
+  let activeKey = customKey || process.env.GEMINI_API_KEY;
+  if (!activeKey) {
+    return null;
+  }
+  activeKey = activeKey.trim();
+  if (
+    activeKey === "" ||
+    activeKey === "MY_GEMINI_API_KEY" ||
+    activeKey === "undefined" ||
+    activeKey === "null"
+  ) {
     return null;
   }
   try {
@@ -285,11 +294,18 @@ mountViteMiddleware();
 // Beautiful Fallback Saju Reading (offline or fallback mode)
 // -------------------------------------------------------------
 function getFallbackReading(user: any, saju: any, concern: string): string {
-  const name = user.name || "인연";
-  const elementsText = `목(${saju.fiveElements.wood}), 화(${saju.fiveElements.fire}), 토(${saju.fiveElements.earth}), 금(${saju.fiveElements.metal}), 수(${saju.fiveElements.water})`;
-  const pillarText = `${saju.yearPillar.heavenlyStem}${saju.yearPillar.earthlyBranch}년 ${saju.monthPillar.heavenlyStem}${saju.monthPillar.earthlyBranch}월 ${saju.dayPillar.heavenlyStem}${saju.dayPillar.earthlyBranch}일`;
-  
-  return `# 신우사주 풀이 (서버 오프라인 감응 모드)
+  try {
+    const name = (user && user.name) || "인연";
+    const fiveElements = (saju && saju.fiveElements) || { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
+    const elementsText = `목(${fiveElements.wood ?? 0}), 화(${fiveElements.fire ?? 0}), 토(${fiveElements.earth ?? 0}), 금(${fiveElements.metal ?? 0}), 수(${fiveElements.water ?? 0})`;
+    
+    const yearPillar = (saju && saju.yearPillar) || { heavenlyStem: "갑", earthlyBranch: "자" };
+    const monthPillar = (saju && saju.monthPillar) || { heavenlyStem: "갑", earthlyBranch: "자" };
+    const dayPillar = (saju && saju.dayPillar) || { heavenlyStem: "갑", earthlyBranch: "자" };
+    const hourPillar = saju && saju.hourPillar;
+    const dayMaster = (saju && saju.dayMaster) || "갑목";
+
+    return `# 신우사주 풀이 (서버 오프라인 감응 모드)
 
 *현재 원격 신령의 방(AI API Key)이 굳게 잠겨 있거나 설정 단계에 있어, 신우 선생이 명리가 담긴 심오한 전래 만세력을 기반으로 지극히 깊은 가르침을 정성껏 내어 드립니다.*
 
@@ -298,13 +314,13 @@ function getFallbackReading(user: any, saju: any, concern: string): string {
 
 ## 2. 사주의 네 기둥
 당신의 탄생과 함께 세워진 네 개의 기둥은 다음과 같습니다:
-- **년주(년기둥: ${saju.yearPillar.heavenlyStem}${saju.yearPillar.earthlyBranch})**: 선대에서 이어진 뼈대이자 삶에 드리운 커다란 울타리입니다. 초년의 기반과 집안의 뿌리를 보여주며 삶의 지반을 이룹니다.
-- **월주(월기둥: ${saju.monthPillar.heavenlyStem}${saju.monthPillar.earthlyBranch})**: 사회와 소통하며 나를 넓히는 기둥입니다. 청년기의 운세를 좌우하고 부모와 형제, 그리고 직업의 주 무대를 상징합니다.
-- **일주(일기둥: ${saju.dayPillar.heavenlyStem}${saju.dayPillar.earthlyBranch})**: **나 자신**이 거주하는 가장 핵심의 자리이자, 성년이 된 이후의 내면과 배우자 자리를 나타내는 영혼의 방입니다.
-- **시주(시기둥: ${saju.hourPillar ? `${saju.hourPillar.heavenlyStem}${saju.hourPillar.earthlyBranch}` : "모름"})**: 인생의 황혼기와 사후, 그리고 자손과 나의 간절한 소망이 투영되는 종국의 울림을 나타냅니다.
+- **년주(년기둥: ${yearPillar.heavenlyStem || "갑"}${yearPillar.earthlyBranch || "자"})**: 선대에서 이어진 뼈대이자 삶에 드리운 커다란 울타리입니다. 초년의 기반과 집안의 뿌리를 보여주며 삶의 지반을 이룹니다.
+- **월주(월기둥: ${monthPillar.heavenlyStem || "갑"}${monthPillar.earthlyBranch || "자"})**: 사회와 소통하며 나를 넓히는 기둥입니다. 청년기의 운세를 좌우하고 부모와 형제, 그리고 직업의 주 무대를 상징합니다.
+- **일주(일기둥: ${dayPillar.heavenlyStem || "갑"}${dayPillar.earthlyBranch || "자"})**: **나 자신**이 거주하는 가장 핵심의 자리이자, 성년이 된 이후의 내면과 배우자 자리를 나타내는 영혼의 방입니다.
+- **시주(시기둥: ${hourPillar ? `${hourPillar.heavenlyStem || ""}${hourPillar.earthlyBranch || ""}` : "모름"})**: 인생의 황혼기와 사후, 그리고 자손과 나의 간절한 소망이 투영되는 종국의 울림을 나타냅니다.
 
 ## 3. 나를 움직이는 중심 기운
-당신의 일간(중심 기운)은 **${saju.dayMaster}**입니다. 
+당신의 일간(중심 기운)은 **${dayMaster}**입니다. 
 당신을 둘러싼 다섯 가지 오행의 기운 분포는 **${elementsText}**로 흐릅니다. 
 이 기운은 당신의 타고난 지혜와 직관, 독립적인 처세술을 뒷받침합니다. 한쪽으로 비중이 치우친 부분이 있다는 것은 그만큼 극적인 집중과 주체할 수 없는 강력한 몰입의 잠재력을 가졌음을 반증합니다.
 
@@ -328,12 +344,19 @@ ${concern === "재물" ? "**재물 분야에 집중된 조언입니다.**" : ""}
 ## 9. 신우의 한마디
 **“억지로 새벽을 기어코 당기려 마라, 밤의 어스름 또한 너의 등뒤에서 묵묵히 너를 성숙시키는 그윽한 은총이니라.”**
 `;
+  } catch (err) {
+    console.error("Failed to generate fallback reading safely:", err);
+    return `# 신우 선생 오프라인 풀이
+귀하의 명리학적 기운을 안전히 연계 받았습니다. 기운이 고요히 가라앉길 기다리며 잠시만 숨을 고르신 뒤 다시 대고해 주시기 바랍니다.`;
+  }
 }
 
 function getFallbackQuestionAnswer(question: string, saju: any): string {
-  return `## 신우의 답
+  try {
+    const dayMaster = (saju && saju.dayMaster) || "명주의 본질";
+    return `## 신우의 답
 
-${saju.dayMaster}의 원천적인 기운과 당신이 구한 물음에 비추어 보니, 이 질문은 마음이 조급하여 조기에 단정적인 결실을 보려 함에 있습니다. 지금 가슴속이 타들어가고 번민이 있는 것은 지극히 자연스러우나 마음의 나침반은 올바른 북향을 잃지 않고 있으니 안심하셔도 좋습니다.
+${dayMaster}의 원천적인 기운과 당신이 구한 물음에 비추어 보니, 이 질문은 마음이 조급하여 조기에 단정적인 결실을 보려 함에 있습니다. 지금 가슴속이 타들어가고 번민이 있는 것은 지극히 자연스러우나 마음의 나침반은 올바른 북향을 잃지 않고 있으니 안심하셔도 좋습니다.
 
 ## 왜 그렇게 보이는가
 
@@ -347,4 +370,9 @@ ${saju.dayMaster}의 원천적인 기운과 당신이 구한 물음에 비추어
 ## 오늘의 문장
 
 “오늘 신우의 문은 여기까지입니다.”`;
+  } catch (err) {
+    console.error("Failed to generate fallback question safely:", err);
+    return `## 신우의 문답
+잠시 오행 기운의 극성이 흩어졌습니다. 마음 속으로 소망을 품고 한 마디 쉼을 얻으신 뒤 다시 여쭤봐 주시기 바랍니다.`;
+  }
 }
