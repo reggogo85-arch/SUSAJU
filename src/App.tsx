@@ -45,9 +45,15 @@ export default function App() {
     setError("");
 
     try {
+      const savedApiKey = localStorage.getItem("shin_saju_gemini_api_key") || "";
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (savedApiKey.trim()) {
+        headers["x-gemini-api-key"] = savedApiKey.trim();
+      }
+
       const response = await fetch("/api/saju/reading", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
         body: JSON.stringify({
           userInfo: input,
           sajuData: computed,

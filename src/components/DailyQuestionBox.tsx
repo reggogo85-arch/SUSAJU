@@ -67,9 +67,15 @@ export default function DailyQuestionBox({ sajuData, userName }: DailyQuestionBo
     setErrorMsg("");
 
     try {
+      const savedApiKey = localStorage.getItem("shin_saju_gemini_api_key") || "";
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (savedApiKey.trim()) {
+        headers["x-gemini-api-key"] = savedApiKey.trim();
+      }
+
       const res = await fetch("/api/saju/question", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
         body: JSON.stringify({
           sajuData,
           userQuestion: question,

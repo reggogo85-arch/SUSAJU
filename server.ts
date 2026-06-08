@@ -38,6 +38,27 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY" && apiKey !== "") {
   console.warn("⚠️ GEMINI_API_KEY not found or is placeholder. Server will run with beautiful offline fallback.");
 }
 
+// Dynamically retrieve Gemini AI client based on custom key or environment variables
+function getAiClient(customKey?: string): GoogleGenAI | null {
+  const activeKey = customKey || process.env.GEMINI_API_KEY;
+  if (!activeKey || activeKey === "MY_GEMINI_API_KEY" || activeKey === "") {
+    return null;
+  }
+  try {
+    return new GoogleGenAI({
+      apiKey: activeKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        },
+      },
+    });
+  } catch (err) {
+    console.error("Failed to initialize Google GenAI client dynamically:", err);
+    return null;
+  }
+}
+
 // 1. Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", aiInitialized: !!ai });
@@ -46,6 +67,7 @@ app.get("/api/health", (req, res) => {
 // 2. Primary Saju Reading Endpoint
 app.post("/api/saju/reading", async (req, res) => {
   const { userInfo, sajuData, concern } = req.body;
+  const customKey = req.headers["x-gemini-api-key"] as string || req.headers["x-api-key"] as string || undefined;
 
   if (!userInfo || !sajuData) {
     return res.status(400).json({ error: "Missing userInfo or sajuData" });
@@ -116,13 +138,19 @@ app.post("/api/saju/reading", async (req, res) => {
 마지막에 짧고 깊숙이 파고드는 경구와도 같은 한 문장을 홀로 남겨라.
 `;
 
-  if (!ai) {
+  const activeAi = getAiClient(customKey);
+
+  if (!activeAi) {
     // Elegant Offline Mock Fallback in case of missing keys
-    return res.json({ reading: getFallbackReading(userInfo, sajuData, concern) });
+    return res.json({ 
+      reading: getFallbackReading(userInfo, sajuData, concern),
+      isFallback: true,
+      reason: "API key is not configured"
+    });
   }
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await activeAi.models.generateContent({
       model: "gemini-3.5-flash",
       contents: promptInput,
       config: {
@@ -131,10 +159,15 @@ app.post("/api/saju/reading", async (req, res) => {
     });
 
     const text = response.text || "신우 선생의 기운에 닿지 못했습니다. 잠시 후 다시 시도해 주세요.";
-    res.json({ reading: text });
+    res.json({ reading: text, isFallback: false });
   } catch (error: any) {
     console.error("Gemini Saju generation error:", error);
-    res.status(500).json({ error: "사주 풀이 생성 중 오류가 발생했습니다. 오프라인 모드로 시도해 보세요.", details: error.message });
+    // Dynamic graceful fallback to protect user experience from error screens
+    res.json({ 
+      reading: getFallbackReading(userInfo, sajuData, concern),
+      isFallback: true,
+      reason: error.message || "Gemini API call failed"
+    });
   }
 });
 
@@ -190,12 +223,19 @@ app.post("/api/saju/question", async (req, res) => {
 “오늘 신우의 문은 여기까지입니다.”
 `;
 
-  if (!ai) {
-    return res.json({ answer: getFallbackQuestionAnswer(userQuestion, sajuData) });
+  const customKey = req.headers["x-gemini-api-key"] as string || req.headers["x-api-key"] as string || undefined;
+  let activeAi = getAiClient(customKey);
+
+  if (!activeAi) {
+    return res.json({ 
+      answer: getFallbackQuestionAnswer(userQuestion, sajuData),
+      isFallback: true,
+      reason: "API key is not configured"
+    });
   }
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await activeAi.models.generateContent({
       model: "gemini-3.5-flash",
       contents: promptInput,
       config: {
@@ -204,10 +244,15 @@ app.post("/api/saju/question", async (req, res) => {
     });
 
     const text = response.text || "기운이 흐려져 신우 선생의 답을 구하지 못했습니다.";
-    res.json({ answer: text });
+    res.json({ answer: text, isFallback: false });
   } catch (error: any) {
     console.error("Gemini Question error:", error);
-    res.status(500).json({ error: "답변을 얻는 중에 기운이 흔들렸습니다.", details: error.message });
+    // Graceful fallback on API generation error
+    res.json({ 
+      answer: getFallbackQuestionAnswer(userQuestion, sajuData),
+      isFallback: true,
+      reason: error.message || "Gemini API call failed"
+    });
   }
 });
 

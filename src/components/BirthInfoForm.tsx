@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 import { UserInput } from "../types";
-import { Calendar, Clock, Smile, Sparkles, AlertCircle } from "lucide-react";
+import { Calendar, Clock, Smile, Sparkles, AlertCircle, Key } from "lucide-react";
 
 interface BirthInfoFormProps {
   onSubmit: (data: UserInput) => void;
@@ -35,6 +35,17 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
 
   const [hasAgreed, setHasAgreed] = useState(false);
   const [error, setError] = useState("");
+
+  const [apiKey, setApiKey] = useState<string>(() => {
+    return localStorage.getItem("shin_saju_gemini_api_key") || "";
+  });
+  const [showApiKeyInput, setShowApiKeyInput] = useState<boolean>(false);
+
+  const handleApiKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setApiKey(val);
+    localStorage.setItem("shin_saju_gemini_api_key", val.trim());
+  };
 
   const [timeMode, setTimeMode] = useState<"12h" | "24h">("12h");
   const [ampm, setAmPm] = useState<"AM" | "PM">("PM");
@@ -435,6 +446,38 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
               </label>
             ))}
           </div>
+        </div>
+
+        {/* Gemini API Key configuration */}
+        <div className="pt-2">
+          <button
+            type="button"
+            onClick={() => setShowApiKeyInput(!showApiKeyInput)}
+            className="text-xs text-amber-500/80 hover:text-amber-400 transition-colors flex items-center gap-1.5 focus:outline-none cursor-pointer"
+          >
+            <Key className="w-3.5 h-3.5 animate-pulse" />
+            <span>AI 엔진 API 키 설정 (선택사항)</span>
+            <span className="text-[10px] text-slate-500">
+              {apiKey ? "• 설정됨" : "• 기본제공 / 개인 키 사용 가능"}
+            </span>
+          </button>
+
+          {showApiKeyInput && (
+            <div className="mt-2.5 p-3.5 rounded-lg bg-black/40 border border-indigo-900/35 space-y-2.5">
+              <p className="text-slate-400 text-xs font-serif leading-relaxed">
+                서버 API 연결이 불안정하거나 원격 할당량이 일시 초과되었을 때, 개인 구글 <strong className="text-amber-500/95 font-medium">Gemini API 키</strong>를 등록하여 직접 통신망을 확보할 수 있습니다. 입력하신 값은 외부로 유출되지 않으며 브라우저(<span className="text-[10px] font-mono text-indigo-400">local storage</span>)에만 안전하게 저장됩니다.
+              </p>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={apiKey}
+                  onChange={handleApiKeyChange}
+                  placeholder="AI Studio에서 발급받은 GEMINI_API_KEY 입력..."
+                  className="w-full px-3 py-2 text-xs rounded-md bg-[#07080e] border border-indigo-900/40 text-amber-400 placeholder-slate-600 focus:outline-none focus:border-amber-500/40 transition-all font-mono"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Traditional Border Divider */}
