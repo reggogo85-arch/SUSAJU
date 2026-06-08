@@ -83,7 +83,8 @@ export function calculateSaju(
   gender: "male" | "female" | "none"
 ): SajuData {
   // Parsing birthdate
-  const parts = birthDate.split("-");
+  const sanitizedDate = birthDate ? birthDate.replace(/[\.\/]/g, "-") : "";
+  const parts = sanitizedDate.split("-");
   const year = parseInt(parts[0]) || 1990;
   const month = parseInt(parts[1]) ? parseInt(parts[1]) - 1 : 0; // 0-11
   const day = parseInt(parts[2]) || 1;

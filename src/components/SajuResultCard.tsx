@@ -45,14 +45,14 @@ const BRANCHES_ELEMENT_MAP: { [key: string]: string } = {
 
 export default function SajuResultCard({ sajuData }: SajuResultCardProps) {
   const pillarsList = [
-    { label: "시주 (時柱)", data: sajuData.hourPillar, desc: "노후 & 소망" },
-    { label: "일주 (日柱)", data: sajuData.dayPillar, desc: "나 자신 (일간)", highlight: true },
-    { label: "월주 (月柱)", data: sajuData.monthPillar, desc: "사회 & 직업" },
-    { label: "년주 (年柱)", data: sajuData.yearPillar, desc: "조상 & 집안" },
+    { label: "시주 (時柱)", data: sajuData.hourPillar, desc: "노후 & 소망", relKey: "hour" as const },
+    { label: "일주 (日柱)", data: sajuData.dayPillar, desc: "나 자신 (일간)", highlight: true, relKey: "day" as const },
+    { label: "월주 (月柱)", data: sajuData.monthPillar, desc: "사회 & 직업", relKey: "month" as const },
+    { label: "년주 (年柱)", data: sajuData.yearPillar, desc: "조상 & 집안", relKey: "year" as const },
   ];
 
   return (
-    <div className="w-full bg-black/60 border border-indigo-900/40 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden backdrop-blur-md animate-[fadeIn_0.5s_ease-out]">
+    <div className="w-full bg-black/60 border border-indigo-900/40 rounded-2xl p-3.5 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden backdrop-blur-md animate-[fadeIn_0.5s_ease-out]">
       <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl pointer-events-none" />
 
       {/* Title */}
@@ -66,7 +66,7 @@ export default function SajuResultCard({ sajuData }: SajuResultCardProps) {
       </div>
 
       {/* Saju Pillars Layout */}
-      <div className="grid grid-cols-4 gap-2 md:gap-4 select-none">
+      <div className="grid grid-cols-4 gap-1.5 sm:gap-3 md:gap-4 select-none">
         {pillarsList.map((p, idx) => {
           if (!p.data) {
             return (
@@ -130,8 +130,8 @@ export default function SajuResultCard({ sajuData }: SajuResultCardProps) {
               </div>
 
               {/* Relation badge underneath */}
-              <div className="mt-4 px-1.5 py-0.5 md:px-2 md:py-1 rounded bg-[#0A0B14] border border-indigo-950 text-[9px] md:text-xs text-slate-400 scale-90 whitespace-nowrap font-serif font-medium">
-                {sajuData.tenGods.pillarsRelation[p.label.split(" ")[0].toLowerCase() as "year" | "month" | "day" | "hour"] || "비견"}
+              <div className="mt-4 px-1 sm:px-2 py-0.5 md:py-1 rounded bg-[#0A0B14] border border-indigo-950 text-[9px] sm:text-[10px] md:text-xs text-slate-400 whitespace-nowrap font-serif font-medium text-center">
+                {sajuData.tenGods.pillarsRelation[p.relKey] || "비견"}
               </div>
             </div>
           );

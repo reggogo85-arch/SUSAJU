@@ -146,7 +146,7 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-black/60 border border-indigo-900/40 rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden">
+    <div className="w-full max-w-2xl mx-auto bg-black/60 border border-indigo-900/40 rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden">
       {/* Decorative corners */}
       <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-amber-500/30" />
       <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-amber-500/30" />
