@@ -44,6 +44,12 @@ export interface SajuData {
       hour: string;
     };
   };
+  shinsal?: {
+    year: string;
+    month: string;
+    day: string;
+    hour: string;
+  };
   luckCycle: {
     baseAge: number;
     cycles: Array<{ age: number; stem: string; branch: string }>;

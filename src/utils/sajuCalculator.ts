@@ -46,6 +46,25 @@ const getBranchPolarity = (idx: number): boolean => {
   return polarities[idx] !== false;
 };
 
+export function calculateShinsal(baseIndex: number, targetIndex: number): string {
+  const shinsalNames = [
+    "겁살", "재살", "천살", "지살", "연살(도화)", "월살",
+    "망신살", "장성살", "반안살", "역마살", "육해살", "화개살"
+  ];
+  let startIndex = 0;
+  if (baseIndex === 2 || baseIndex === 6 || baseIndex === 10) {
+    startIndex = 11; // 해 (Pig) for In-Oh-Sul
+  } else if (baseIndex === 5 || baseIndex === 9 || baseIndex === 1) {
+    startIndex = 2;  // 인 (Tiger) for Sa-Yu-Chuk
+  } else if (baseIndex === 8 || baseIndex === 0 || baseIndex === 4) {
+    startIndex = 5;  // 사 (Snake) for Shin-Ja-Jin
+  } else {
+    startIndex = 8;  // 신 (Monkey) for Hae-Myo-Mi
+  }
+  const offset = (targetIndex - startIndex + 12) % 12;
+  return shinsalNames[offset];
+}
+
 const getRelation = (dmIndex: number, targetIndex: number, isStem: boolean): string => {
   const dmPol = dmIndex % 2 === 0; // true: +, false: -
   const targetElement = isStem ? STEMS_ELEMENT[targetIndex] : BRANCHES_ELEMENT[targetIndex];
@@ -260,6 +279,13 @@ export function calculateSaju(
   }
   notes.push(`일간(중심 기운)은 ${STEMS_DESC[dStemI]}`);
 
+  const shinsal = {
+    year: calculateShinsal(yBranchI, yBranchI),
+    month: calculateShinsal(yBranchI, mBranchI),
+    day: calculateShinsal(yBranchI, dBranchI),
+    hour: hourPillar ? calculateShinsal(yBranchI, hBranchI) : "분석 불가",
+  };
+
   return {
     yearPillar,
     monthPillar,
@@ -271,6 +297,7 @@ export function calculateSaju(
       mainTraits,
       pillarsRelation,
     },
+    shinsal,
     luckCycle: {
       baseAge,
       cycles,
