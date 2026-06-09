@@ -327,7 +327,12 @@ async function mountViteMiddleware() {
   });
 }
 
-mountViteMiddleware();
+// Only mount Vite middleware and start listening if not running on Vercel
+if (!process.env.VERCEL) {
+  mountViteMiddleware();
+}
+
+export default app;
 
 // -------------------------------------------------------------
 // Deep Traditional Saju Reference Databases for Local Fallback
