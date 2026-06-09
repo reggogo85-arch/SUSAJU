@@ -1,7 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Nanum+Brush+Script&family=East+Sea+Dokdo&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Noto Serif KR', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-brush: 'Nanum Brush Script', cursive;
+  --font-dokdo: 'East Sea Dokdo', cursive;
 }
+
+/* Hanji paper texture background - Light warm mulberry paper with beautiful organic fibers */
+.bg-hanji {
+  background-color: #FAF5EB;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cpath d='M10,25 Q25,10 40,20 T70,12 100,28 T130,22 Q120,45 105,60 T60,80 15,65' fill='none' stroke='%23eedfca' stroke-width='0.45' stroke-linecap='round' opacity='0.6'/%3E%3Cpath d='M85,15 Q100,30 115,20 T135,45 Q110,65 95,50' fill='none' stroke='%23eedfca' stroke-width='0.35' stroke-linecap='round' opacity='0.55'/%3E%3Cpath d='M20,70 Q40,65 60,85 T90,95 Q115,110 130,125' fill='none' stroke='%23eedfca' stroke-width='0.45' stroke-linecap='round' opacity='0.6'/%3E%3Cpath d='M5,105 Q25,110 45,95 T85,115' fill='none' stroke='%23eedfca' stroke-width='0.35' stroke-linecap='round' opacity='0.5'/%3E%3Ccircle cx='35' cy='45' r='1.1' fill='%23dfcbaf' opacity='0.5'/%3E%3Ccircle cx='95' cy='85' r='0.9' fill='%23dfcbaf' opacity='0.45'/%3E%3Ccircle cx='115' cy='35' r='1.2' fill='%23ded1be' opacity='0.35'/%3E%3Ccircle cx='55' cy='115' r='1.0' fill='%23dfcbaf' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* Traditional Korean wooden plate / border design */
+.border-traditional-double {
+  border: 4px double #8C1D1D;
+}
+
+.border-traditional-ink {
+  border: 4px double #1A1105;
+}
+
+/* Scroll pattern footer */
+.bg-dancheong {
+  background-color: #8C1D1D;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M0,0 L4,4 L8,0 L8,8 L0,8 Z' fill='%236e1313' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* Brush text glow */
+.text-ink-bold {
+  color: #1A1105;
+  text-shadow: 0.5px 0.5px 1px rgba(26, 17, 5, 0.15);
+}
+
+.text-crimson-distinct {
+  color: #8C1D1D;
+}
+

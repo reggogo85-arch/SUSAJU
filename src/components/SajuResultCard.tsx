@@ -10,20 +10,21 @@ interface SajuResultCardProps {
   sajuData: SajuData;
 }
 
+// Custom traditional high-contrast vibrant colors for elements (for light backgrounds)
 const getElementColorClass = (element: string) => {
   switch (element) {
     case "wood":
-      return "bg-emerald-950/40 border-emerald-500/30 text-emerald-400";
+      return "bg-[#E8F5E9] border-2 border-[#2E7D32] text-[#1B5E20]"; // 목 (초록)
     case "fire":
-      return "bg-red-950/40 border-red-500/30 text-red-400";
+      return "bg-[#FFEBEE] border-2 border-[#C62828] text-[#B71C1C]"; // 화 (빨강)
     case "earth":
-      return "bg-amber-950/40 border-amber-600/30 text-amber-400";
+      return "bg-[#FFF8E1] border-2 border-[#EF6C00] text-[#E65100]"; // 토 (노랑)
     case "metal":
-      return "bg-zinc-800/60 border-zinc-600/30 text-zinc-100";
+      return "bg-[#ECEFF1] border-2 border-[#455A64] text-[#263238]"; // 금 (백색계열)
     case "water":
-      return "bg-indigo-950/40 border-indigo-500/30 text-indigo-300";
+      return "bg-[#E3F2FD] border-2 border-[#1565C0] text-[#0D47A1]"; // 수 (청색)
     default:
-      return "bg-zinc-900 border-zinc-800 text-zinc-400";
+      return "bg-[#F5F5F5] border-2 border-[#9E9E9E] text-[#212121]";
   }
 };
 
@@ -60,39 +61,43 @@ const SHINSAL_DESC_MAP: { [key: string]: string } = {
 
 export default function SajuResultCard({ sajuData }: SajuResultCardProps) {
   const pillarsList = [
-    { label: "시주 (時柱)", data: sajuData.hourPillar, desc: "노후 & 소망", relKey: "hour" as const },
-    { label: "일주 (日柱)", data: sajuData.dayPillar, desc: "나 자신 (일간)", highlight: true, relKey: "day" as const },
-    { label: "월주 (月柱)", data: sajuData.monthPillar, desc: "사회 & 직업", relKey: "month" as const },
-    { label: "년주 (年柱)", data: sajuData.yearPillar, desc: "조상 & 집안", relKey: "year" as const },
+    { label: "시주", data: sajuData.hourPillar, desc: "노후 & 소망", relKey: "hour" as const },
+    { label: "일주", data: sajuData.dayPillar, desc: "나 자신 (일간)", highlight: true, relKey: "day" as const },
+    { label: "월주", data: sajuData.monthPillar, desc: "사회 & 직업", relKey: "month" as const },
+    { label: "년주", data: sajuData.yearPillar, desc: "조상 & 집안", relKey: "year" as const },
   ];
 
   return (
-    <div className="w-full bg-black/60 border border-indigo-900/40 rounded-2xl p-3.5 sm:p-6 md:p-8 shadow-2xl relative overflow-hidden backdrop-blur-md animate-[fadeIn_0.5s_ease-out]">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl pointer-events-none" />
+    <div className="w-full bg-[#FDFBF7] border-2 border-[#1A1105]/40 rounded-2xl p-4 sm:p-6 md:p-8 shadow-md relative overflow-hidden animate-[fadeIn_0.5s_use-out]">
+      {/* Decorative Traditional Border Double */}
+      <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#8C1D1D]/70" />
+      <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#8C1D1D]/70" />
+      <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#8C1D1D]/70" />
+      <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#8C1D1D]/70" />
 
       {/* Title */}
       <div className="text-center mb-6">
-        <h3 className="text-base md:text-lg font-bold font-serif text-amber-500 uppercase tracking-[0.2em]">
-          사 주 팔 자 (四 柱 八 字)
+        <h3 className="text-2xl md:text-3xl font-brush text-[#8C1D1D] tracking-widest">
+          사 주 팔 자
         </h3>
-        <p className="text-[11px] text-slate-500 mt-1 font-serif">
-          귀하의 은하계를 구성하는 네 기둥과 여덟 가닥의 기틀
+        <p className="text-xs text-[#5C5243] mt-1 font-serif">
+          귀하의 우주를 구성하는 네 기둥과 여덟 글자의 수호 기운
         </p>
       </div>
 
       {/* Saju Pillars Layout */}
-      <div className="grid grid-cols-4 gap-1.5 sm:gap-3 md:gap-4 select-none">
+      <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 select-none">
         {pillarsList.map((p, idx) => {
           if (!p.data) {
             return (
               <div
                 key={idx}
-                className="flex flex-col items-center justify-center border border-indigo-950/60 rounded-xl p-3 bg-black/40 text-center min-h-[190px] h-full"
+                className="flex flex-col items-center justify-center border border-[#1A1105]/20 rounded-xl p-2.5 bg-[#FAF5EB]/50 text-center min-h-[220px] h-full"
               >
-                <span className="text-[11px] font-bold font-serif text-slate-500">{p.label}</span>
-                <span className="text-[10px] text-slate-600 mt-1">{p.desc}</span>
-                <div className="w-px h-8 bg-indigo-950/85 my-3" />
-                <span className="text-xs font-medium text-slate-600 tracking-tighter font-serif">시간 미기입</span>
+                <span className="text-[11px] font-bold font-serif text-[#5C5243]">{p.label}</span>
+                <span className="text-[9px] text-[#8C8476] mt-0.5">{p.desc}</span>
+                <div className="w-12 h-[1px] bg-[#1A1105]/10 my-4" />
+                <span className="text-xs font-semibold text-[#8C8476] font-serif leading-relaxed">시간<br />미기입</span>
               </div>
             );
           }
@@ -105,57 +110,57 @@ export default function SajuResultCard({ sajuData }: SajuResultCardProps) {
               key={idx}
               className={`flex flex-col items-center rounded-xl p-2 md:p-4 border transition-all duration-300 ${
                 p.highlight
-                  ? "border-amber-500/50 bg-[#13111f]/45 shadow-[0_0_15px_rgba(245,158,11,0.08)] scale-[1.02]"
-                  : "border-indigo-950 bg-black/40"
+                  ? "border-2 border-[#8C1D1D] bg-[#F4EFE6] shadow-sm transform scale-[1.03]"
+                  : "border border-[#1A1105]/20 bg-[#FAF5EB]/40"
               }`}
             >
               {/* Pillar Title */}
-              <span className={`text-[11px] md:text-xs font-bold leading-none font-serif ${p.highlight ? "text-amber-400" : "text-slate-400"}`}>
+              <span className={`text-xs font-bold leading-none font-serif ${p.highlight ? "text-[#8C1D1D]" : "text-[#1A1105]"}`}>
                 {p.label}
               </span>
-              <span className="text-[9px] text-slate-500 mt-1 font-serif truncate max-w-full text-center">{p.desc}</span>
+              <span className="text-[9px] text-[#5C5243] mt-1 font-serif truncate max-w-full text-center">{p.desc}</span>
 
               {/* Stem / Heavenly (천간) */}
               <div className="w-full mt-4 flex flex-col items-center">
                 <div
-                  className={`w-11 h-11 md:w-16 md:h-16 flex flex-col items-center justify-center rounded-lg border shadow-inner transition-all ${getElementColorClass(
+                  className={`w-11 h-11 md:w-16 md:h-16 flex flex-col items-center justify-center rounded-lg shadow-sm transition-all ${getElementColorClass(
                     stemElem
                   )}`}
                 >
                   <span className="text-xl md:text-2xl font-black font-serif leading-none">{p.data.stemHanja}</span>
-                  <span className="text-[10px] md:text-xs font-medium mt-0.5 md:mt-1 font-serif">{p.data.heavenlyStem}</span>
+                  <span className="text-[10px] md:text-xs font-bold mt-0.5 md:mt-1 font-serif">{p.data.heavenlyStem}</span>
                 </div>
-                <span className="text-[9px] text-slate-500 font-serif mt-1">천간 (天)</span>
+                <span className="text-[9px] text-[#5C5243] font-serif mt-1">천간 (天)</span>
               </div>
 
               {/* Decorative Connector */}
-              <div className="w-px h-3 bg-[#1e1b4b]/60" />
+              <div className="w-1 h-3 border-l border-[#1A1105]/20 my-0.5" />
 
               {/* Branch / Earthly (지지) */}
               <div className="w-full flex flex-col items-center">
                 <div
-                  className={`w-11 h-11 md:w-16 md:h-16 flex flex-col items-center justify-center rounded-lg border shadow-inner transition-all ${getElementColorClass(
+                  className={`w-11 h-11 md:w-16 md:h-16 flex flex-col items-center justify-center rounded-lg shadow-sm transition-all ${getElementColorClass(
                     branchElem
                   )}`}
                 >
                   <span className="text-xl md:text-2xl font-black font-serif leading-none">{p.data.branchHanja}</span>
-                  <span className="text-[10px] md:text-xs font-medium mt-0.5 md:mt-1 font-serif">{p.data.earthlyBranch}</span>
+                  <span className="text-[10px] md:text-xs font-bold mt-0.5 md:mt-1 font-serif">{p.data.earthlyBranch}</span>
                 </div>
-                <span className="text-[9px] text-slate-500 font-serif mt-1">지지 (地)</span>
+                <span className="text-[9px] text-[#5C5243] font-serif mt-1">지지 (地)</span>
               </div>
 
               {/* Relation badge underneath */}
-              <div className="mt-4 px-1 sm:px-2 py-0.5 md:py-1 rounded bg-[#0A0B14] border border-indigo-950 text-[9px] sm:text-[10px] md:text-xs text-slate-400 whitespace-nowrap font-serif font-medium text-center">
+              <div className="mt-4 px-1.5 py-1 rounded bg-[#F4EFE6] border border-[#1A1105]/15 text-[10px] md:text-xs text-[#1A1105] font-serif font-bold text-center whitespace-nowrap">
                 {sajuData.tenGods.pillarsRelation[p.relKey] || "비견"}
               </div>
 
               {/* Shinsal Badge */}
               {sajuData.shinsal && sajuData.shinsal[p.relKey] && (
                 <div 
-                  className="mt-1.5 px-1.5 sm:px-2 py-0.5 md:py-1 rounded bg-[#1e1b4b]/40 border border-amber-500/20 text-[9px] sm:text-[10px] md:text-xs text-amber-300 font-serif font-semibold text-center hover:bg-amber-500/10 cursor-help transition-all shadow-[0_0_8px_rgba(245,158,11,0.05)] animate-pulse"
+                  className="mt-1.5 px-1.5 py-0.5 rounded bg-[#8C1D1D]/5 border border-[#8C1D1D]/30 text-[10px] md:text-xs text-[#8C1D1D] font-serif font-extrabold text-center hover:bg-[#8C1D1D]/10 transition-all select-none"
                   title={sajuData.shinsal[p.relKey]}
                 >
-                  ✨ {sajuData.shinsal[p.relKey]}
+                  ⚜️ {sajuData.shinsal[p.relKey]}
                 </div>
               )}
             </div>
@@ -164,41 +169,40 @@ export default function SajuResultCard({ sajuData }: SajuResultCardProps) {
       </div>
 
       {/* Helper Legend */}
-      <div className="mt-6 grid grid-cols-5 text-center text-[10px] md:text-xs text-slate-400 bg-black/40 py-2.5 rounded-lg border border-indigo-950/60 font-serif gap-1">
-        <span className="flex items-center justify-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500" /> 木 (초록)</span>
-        <span className="flex items-center justify-center gap-1.5"><span className="w-2 h-2 rounded-full bg-red-500" /> 火 (빨강)</span>
-        <span className="flex items-center justify-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500" /> 土 (황색)</span>
-        <span className="flex items-center justify-center gap-1.5"><span className="w-2 h-2 rounded-full bg-zinc-300" /> 金 (백색)</span>
-        <span className="flex items-center justify-center gap-1.5"><span className="w-2 h-2 rounded-full bg-indigo-500" /> 水 (청색)</span>
+      <div className="mt-6 grid grid-cols-5 text-center text-xs text-[#3E3425] bg-[#FAF5EB] py-2 whitespace-nowrap rounded-lg border border-[#1A1105]/15 font-serif font-semibold gap-1">
+        <span className="flex items-center justify-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#2E7D32]" /> 木 (초록)</span>
+        <span className="flex items-center justify-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#C62828]" /> 火 (빨강)</span>
+        <span className="flex items-center justify-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#EF6C00]" /> 土 (황색)</span>
+        <span className="flex items-center justify-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#455A64]" /> 金 (백색)</span>
+        <span className="flex items-center justify-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#1565C0]" /> 水 (청색)</span>
       </div>
 
       {/* 12 Shinsal Deep Interpretations Section */}
       {sajuData.shinsal && (
-        <div className="mt-6 border-t border-indigo-900/40 pt-5 space-y-3.5">
+        <div className="mt-6 border-t border-[#1A1105]/10 pt-5 space-y-3.5">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-amber-500 text-sm">🔮</span>
-            <h4 className="text-sm font-bold text-amber-400 font-serif tracking-wider">나의 사주속 12신살(12神煞) 심층 해석</h4>
+            <span className="text-[#8C1D1D] text-lg">🌸</span>
+            <h4 className="text-base font-bold text-[#1A1105] font-serif tracking-wide">나의 사주 속 12신살 해석</h4>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
-              { label: "년주(年柱) - 초년·선대운", key: "year" as const, val: sajuData.shinsal.year },
-              { label: "월주(月柱) - 청년·사회운", key: "month" as const, val: sajuData.shinsal.month },
-              { label: "일주(日柱) - 장년·자신의 본질", key: "day" as const, val: sajuData.shinsal.day },
-              sajuData.hourPillar ? { label: "시주(時柱) - 말년·가정운", key: "hour" as const, val: sajuData.shinsal.hour } : null
+              { label: "년주 - 초년·선대운", key: "year" as const, val: sajuData.shinsal.year },
+              { label: "월주 - 청년·사회운", key: "month" as const, val: sajuData.shinsal.month },
+              { label: "일주 - 장년·자신의 본질", key: "day" as const, val: sajuData.shinsal.day },
+              sajuData.hourPillar ? { label: "시주 - 말년·가정운", key: "hour" as const, val: sajuData.shinsal.hour } : null
             ].filter(Boolean).map((item, id) => {
               if (!item || !item.val || item.val === "분석 불가") return null;
               
-              // Map cleaned name
-              const cleanName = item.val.split("(")[0];
+              const cleanName = item.val.split("(")[0].trim();
               const desc = SHINSAL_DESC_MAP[item.val] || SHINSAL_DESC_MAP[cleanName] || "길흉화복을 조율하고 다스리는 신비로운 하늘의 이치이자 살이며 복록의 흐름입니다.";
               
               return (
-                <div key={id} className="p-3 bg-indigo-950/15 border border-indigo-500/10 rounded-xl space-y-1 backdrop-blur-sm hover:border-amber-500/15 hover:bg-indigo-950/20 transition-all">
-                  <div className="flex justify-between items-center text-[11px] mb-1">
-                    <span className="text-slate-400 font-medium font-serif">{item.label}</span>
-                    <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 text-[10px] font-bold font-serif">{item.val}</span>
+                <div key={id} className="p-3.5 bg-[#FAF5EB] border border-[#1A1105]/15 rounded-xl space-y-1.5 shadow-sm hover:border-[#8C1D1D]/30 transition-all">
+                  <div className="flex justify-between items-center text-xs mb-1">
+                    <span className="text-[#5C5243] font-bold font-serif">{item.label}</span>
+                    <span className="px-2 py-0.5 rounded bg-[#8C1D1D]/10 text-[#8C1D1D] text-xs font-extrabold font-serif">{item.val}</span>
                   </div>
-                  <p className="text-[11px] text-slate-300 leading-relaxed font-serif text-justify">{desc}</p>
+                  <p className="text-xs text-[#1A1105] leading-relaxed font-serif text-justify">{desc}</p>
                 </div>
               );
             })}

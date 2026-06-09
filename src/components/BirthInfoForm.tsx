@@ -145,11 +145,11 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
       return;
     }
     if (!formData.isTimeUnknown && !formData.birthTime) {
-      setError("태어난 시를 모르시는 경우 '시간 모름'을 확인해 주십시오.");
+      setError("태어난 시간을 선택해 주세요.");
       return;
     }
     if (!hasAgreed) {
-      setError("개인정보 활용 및 감상 목적 안내에 직접 서명하듯 확인해 주셔야 합니다.");
+      setError("신우사주 이용 동의서 내용에 확인 서명하셔야 열람하실 수 있습니다.");
       return;
     }
 
@@ -157,34 +157,34 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-black/60 border border-indigo-900/40 rounded-2xl p-4 sm:p-6 md:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden">
+    <div className="w-full max-w-2xl mx-auto bg-[#FDFBF7] border-2 border-[#1A1105]/50 rounded-2xl p-4 sm:p-6 md:p-8 shadow-md relative overflow-hidden">
       {/* Decorative corners */}
-      <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-amber-500/30" />
-      <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-amber-500/30" />
-      <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-amber-500/30" />
-      <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-amber-500/30" />
+      <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#8C1D1D]/70" />
+      <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-[#8C1D1D]/70" />
+      <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-[#8C1D1D]/70" />
+      <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#8C1D1D]/70" />
 
-      <h2 className="text-xl md:text-2xl font-bold text-amber-500 font-serif text-center mb-6 tracking-widest flex items-center justify-center gap-2">
-        <Sparkles className="w-5 h-5 text-amber-500 animate-pulse" />
-        명 리 사 주 첩 (命理 四柱帖)
+      <h2 className="text-4xl md:text-5xl text-[#1A1105] font-brush text-center mb-6 tracking-widest flex items-center justify-center gap-2">
+        <Sparkles className="w-6 h-6 text-[#8C1D1D] animate-pulse shrink-0" />
+        명 리 사 주 첩
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Error alerting */}
         {error && (
-          <div className="p-4 bg-red-950/25 border border-red-500/30 text-red-400 rounded-md text-sm flex items-center gap-2 animate-shake">
-            <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
-            <span>{error}</span>
+          <div className="p-4 bg-red-50 border border-red-300 text-red-950 rounded-md text-sm flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-[#8C1D1D]" />
+            <span className="font-serif font-medium">{error}</span>
           </div>
         )}
 
         {/* Name / Nickname */}
         <div>
-          <label className="block text-slate-300 text-sm font-medium mb-2 tracking-wide font-serif">
-            성명 / 별칭 (姓名)
+          <label className="block text-[#1A1105] text-sm font-semibold mb-2 tracking-wide font-serif">
+            성명 / 별칭
           </label>
           <div className="relative">
-            <Smile className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Smile className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5C5243]" />
             <input
               type="text"
               name="name"
@@ -192,7 +192,7 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
               value={formData.name}
               onChange={handleChange}
               placeholder="본명 또는 별명을 적어주세요 (예: 무구한 여행자)"
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#0F1121]/90 border border-indigo-950/80 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all text-sm font-sans"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#1A1105] placeholder-[#8C8476] focus:outline-none focus:border-[#8C1D1D] focus:ring-1 focus:ring-[#8C1D1D] transition-all text-sm font-serif"
             />
           </div>
         </div>
@@ -200,44 +200,44 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
         {/* Birth Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-slate-300 text-sm font-medium mb-2 tracking-wide font-serif">
-              생년월일 (生年月日)
+            <label className="block text-[#1A1105] text-sm font-semibold mb-2 tracking-wide font-serif">
+              생년월일
             </label>
             <div className="relative">
-              <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5C5243]" />
               <input
                 type="date"
                 name="birthDate"
                 id="input-birthdate"
                 value={formData.birthDate}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#0F1121]/90 border border-indigo-950/80 text-slate-200 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all text-sm font-sans"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#1A1105] focus:outline-none focus:border-[#8C1D1D] focus:ring-1 focus:ring-[#8C1D1D] transition-all text-sm font-serif"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-slate-300 text-sm font-medium mb-2 tracking-wide font-serif">
-              태어난 시간 (出生時刻)
+            <label className="block text-[#1A1105] text-sm font-semibold mb-2 tracking-wide font-serif">
+              태어난 시간
             </label>
-            <div className={`space-y-2 p-3 rounded-xl border border-indigo-950/60 bg-[#0F1121]/50 transition-all ${
+            <div className={`space-y-2 p-3 rounded-xl border border-[#1A1105]/10 bg-[#FAF5EB]/50 transition-all ${
               formData.isTimeUnknown ? "opacity-35 pointer-events-none" : ""
             }`}>
               {/* Toggle to switch between 12h (AM/PM) format and 24h format */}
-              <div className="flex justify-between items-center pb-2 border-b border-indigo-950/30">
-                <span className="text-[11px] text-slate-400 font-serif flex items-center gap-1.5 font-bold">
-                  <Clock className="w-3.5 h-3.5 text-amber-500/80" />
+              <div className="flex justify-between items-center pb-2 border-b border-[#1A1105]/10">
+                <span className="text-[11px] text-[#5C5243] font-serif flex items-center gap-1.5 font-bold">
+                  <Clock className="w-3.5 h-3.5 text-[#8C1D1D]" />
                   시간형식
                 </span>
-                <div className="flex bg-[#05070F] rounded-md p-0.5 border border-indigo-900/40">
+                <div className="flex bg-[#EFECE1] rounded-md p-0.5 border border-[#1A1105]/10">
                   <button
                     type="button"
                     disabled={formData.isTimeUnknown}
                     onClick={() => handleTimeModeChange("12h")}
                     className={`px-2.5 py-0.5 rounded text-[10px] font-medium transition-all cursor-pointer ${
                       timeMode === "12h"
-                        ? "bg-amber-500/10 text-amber-400 border border-amber-500/30"
-                        : "text-slate-500 hover:text-slate-300 border border-transparent"
+                        ? "bg-[#FAF5EB] text-[#8C1D1D] border border-[#8C1D1D]/30 font-bold"
+                        : "text-[#8C8476] hover:text-[#1A1105] border border-transparent"
                     }`}
                   >
                     오전/오후
@@ -248,8 +248,8 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                     onClick={() => handleTimeModeChange("24h")}
                     className={`px-2.5 py-0.5 rounded text-[10px] font-medium transition-all cursor-pointer ${
                       timeMode === "24h"
-                        ? "bg-amber-500/10 text-amber-400 border border-amber-500/30"
-                        : "text-slate-500 hover:text-slate-300 border border-transparent"
+                        ? "bg-[#FAF5EB] text-[#8C1D1D] border border-[#8C1D1D]/30 font-bold"
+                        : "text-[#8C8476] hover:text-[#1A1105] border border-transparent"
                     }`}
                   >
                     24시간제
@@ -260,15 +260,15 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
               {/* Time Inputs */}
               <div className="flex items-center gap-2">
                 {timeMode === "12h" && (
-                  <div className="flex rounded-lg bg-[#05070F] p-0.5 border border-indigo-950/60 shrink-0 h-10 items-center">
+                  <div className="flex rounded-lg bg-[#FAF5EB] p-0.5 border border-[#1A1105]/20 shrink-0 h-10 items-center">
                     <button
                       type="button"
                       disabled={formData.isTimeUnknown}
                       onClick={() => handleAmPmToggle("AM")}
                       className={`px-2.5 py-1 text-xs font-serif font-bold rounded-md transition-all cursor-pointer h-full flex items-center ${
                         ampm === "AM"
-                          ? "bg-amber-500/20 text-amber-400 border border-amber-500/30 font-extrabold"
-                          : "text-slate-500 hover:text-slate-300 border border-transparent"
+                          ? "bg-[#8C1D1D]/10 text-[#8C1D1D] border border-[#8C1D1D]/20 font-extrabold"
+                          : "text-[#8C8476] hover:text-[#1A1105] border border-transparent"
                       }`}
                     >
                       오전 (AM)
@@ -279,8 +279,8 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                       onClick={() => handleAmPmToggle("PM")}
                       className={`px-2.5 py-1 text-xs font-serif font-bold rounded-md transition-all cursor-pointer h-full flex items-center ${
                         ampm === "PM"
-                          ? "bg-amber-500/20 text-amber-400 border border-amber-500/30 font-extrabold"
-                          : "text-slate-500 hover:text-slate-300 border border-transparent"
+                          ? "bg-[#8C1D1D]/10 text-[#8C1D1D] border border-[#8C1D1D]/20 font-extrabold"
+                          : "text-[#8C8476] hover:text-[#1A1105] border border-transparent"
                       }`}
                     >
                       오후 (PM)
@@ -293,7 +293,7 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                     disabled={formData.isTimeUnknown}
                     value={timeMode === "12h" ? hour12 : hour24}
                     onChange={(e) => handleHourChange(parseInt(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-[#05070F]/90 border border-indigo-950/80 text-slate-200 focus:outline-none focus:border-amber-500 text-xs md:text-sm font-serif h-10 appearance-none cursor-pointer"
+                    className="w-full px-3 py-2 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#1A1105] focus:outline-none focus:border-[#8C1D1D] text-xs md:text-sm font-serif h-10 appearance-none cursor-pointer"
                   >
                     {timeMode === "12h"
                       ? Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
@@ -307,17 +307,17 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                           </option>
                         ))}
                   </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-[10px]">▼</div>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#5C5243] text-[10px]">▼</div>
                 </div>
 
-                <span className="text-slate-500 font-bold font-serif">:</span>
+                <span className="text-[#5C5243] font-bold font-serif">:</span>
 
                 <div className="flex-1 relative">
                   <select
                     disabled={formData.isTimeUnknown}
                     value={minute}
                     onChange={(e) => handleMinuteChange(parseInt(e.target.value))}
-                    className="w-full px-3 py-2 rounded-lg bg-[#05070F]/90 border border-indigo-950/80 text-slate-200 focus:outline-none focus:border-amber-500 text-xs md:text-sm font-serif h-10 appearance-none cursor-pointer"
+                    className="w-full px-3 py-2 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#1A1105] focus:outline-none focus:border-[#8C1D1D] text-xs md:text-sm font-serif h-10 appearance-none cursor-pointer"
                   >
                     {Array.from({ length: 60 }, (_, i) => i).map((m) => (
                       <option key={m} value={m}>
@@ -325,7 +325,7 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                       </option>
                     ))}
                   </select>
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 text-[10px]">▼</div>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#5C5243] text-[10px]">▼</div>
                 </div>
               </div>
             </div>
@@ -336,9 +336,9 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                 id="time-unknown"
                 checked={formData.isTimeUnknown}
                 onChange={handleCheckboxChange}
-                className="rounded border-indigo-950/80 text-amber-500 focus:ring-amber-500 accent-amber-500 bg-[#0F1121] mr-2 cursor-pointer w-4 h-4"
+                className="rounded border-[#1A1105]/30 text-[#8C1D1D] focus:ring-[#8C1D1D] accent-[#8C1D1D] mr-2 cursor-pointer w-4 h-4"
               />
-              <label htmlFor="time-unknown" className="text-slate-400 text-xs cursor-pointer select-none">
+              <label htmlFor="time-unknown" className="text-[#5C5243] text-xs cursor-pointer select-none font-serif">
                 태어난 시간을 모릅니다 (시주 해석을 건너뜁니다)
               </label>
             </div>
@@ -348,11 +348,11 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
         {/* Calendar and Gender */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-slate-300 text-sm font-medium mb-2 tracking-wide font-serif">
+            <label className="block text-[#1A1105] text-sm font-semibold mb-2 tracking-wide font-serif">
               력법 (달력) 선택
             </label>
             <div className="flex gap-4">
-              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#0F1121]/90 border border-indigo-950/80 text-slate-400 cursor-pointer select-none transition-all has-checked:border-amber-500/50 has-checked:bg-amber-500/5 has-checked:text-amber-400 text-xs font-medium font-serif">
+              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#5C5243] cursor-pointer select-none transition-all has-checked:border-[#8C1D1D]/60 has-checked:bg-[#8C1D1D]/5 has-checked:text-[#8C1D1D] text-xs font-semibold font-serif">
                 <input
                   type="radio"
                   name="calendarType"
@@ -363,7 +363,7 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                 />
                 양력 (Solar)
               </label>
-              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#0F1121]/90 border border-indigo-950/80 text-slate-400 cursor-pointer select-none transition-all has-checked:border-amber-500/50 has-checked:bg-amber-500/5 has-checked:text-amber-400 text-xs font-medium font-serif">
+              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#5C5243] cursor-pointer select-none transition-all has-checked:border-[#8C1D1D]/60 has-checked:bg-[#8C1D1D]/5 has-checked:text-[#8C1D1D] text-xs font-semibold font-serif">
                 <input
                   type="radio"
                   name="calendarType"
@@ -378,11 +378,11 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
           </div>
 
           <div>
-            <label className="block text-slate-300 text-sm font-medium mb-2 tracking-wide font-serif">
-              성별 구분 (性別)
+            <label className="block text-[#1A1105] text-sm font-semibold mb-2 tracking-wide font-serif">
+              성별 구분
             </label>
             <div className="flex gap-2">
-              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#0F1121]/90 border border-indigo-950/80 text-slate-400 cursor-pointer select-none transition-all has-checked:border-amber-500/50 has-checked:bg-amber-500/5 has-checked:text-amber-400 text-xs font-medium font-serif">
+              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#5C5243] cursor-pointer select-none transition-all has-checked:border-[#8C1D1D]/60 has-checked:bg-[#8C1D1D]/5 has-checked:text-[#8C1D1D] text-xs font-semibold font-serif">
                 <input
                   type="radio"
                   name="gender"
@@ -391,9 +391,9 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                   onChange={handleChange}
                   className="sr-only"
                 />
-                남성 (乾命)
+                남성 (건명)
               </label>
-              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#0F1121]/90 border border-indigo-950/80 text-slate-400 cursor-pointer select-none transition-all has-checked:border-amber-500/50 has-checked:bg-amber-500/5 has-checked:text-amber-400 text-xs font-medium font-serif">
+              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#5C5243] cursor-pointer select-none transition-all has-checked:border-[#8C1D1D]/60 has-checked:bg-[#8C1D1D]/5 has-checked:text-[#8C1D1D] text-xs font-semibold font-serif">
                 <input
                   type="radio"
                   name="gender"
@@ -402,9 +402,9 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                   onChange={handleChange}
                   className="sr-only"
                 />
-                여성 (坤命)
+                여성 (곤명)
               </label>
-              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#0F1121]/90 border border-indigo-950/80 text-slate-400 cursor-pointer select-none transition-all has-checked:border-amber-500/50 has-checked:bg-amber-500/5 has-checked:text-amber-400 text-xs font-medium font-serif">
+              <label className="flex-1 flex items-center justify-center py-2.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 text-[#5C5243] cursor-pointer select-none transition-all has-checked:border-[#8C1D1D]/60 has-checked:bg-[#8C1D1D]/5 has-checked:text-[#8C1D1D] text-xs font-semibold font-serif">
                 <input
                   type="radio"
                   name="gender"
@@ -413,7 +413,7 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                   onChange={handleChange}
                   className="sr-only"
                 />
-                비공개 (無)
+                비공개 (무)
               </label>
             </div>
           </div>
@@ -421,17 +421,17 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
 
         {/* Concern Selection */}
         <div>
-          <label className="block text-slate-300 text-sm font-medium mb-2 tracking-wide font-serif">
+          <label className="block text-[#1A1105] text-sm font-semibold mb-2 tracking-wide font-serif">
             현재 마음에 품은 가장 큰 관심사
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {CONCERNS.map((c) => (
               <label
                 key={c.id}
-                className={`py-2 rounded-lg border text-center text-xs cursor-pointer select-none transition-all font-medium flex items-center justify-center font-serif ${
+                className={`py-2 rounded-lg border text-center text-xs cursor-pointer select-none transition-all font-semibold flex items-center justify-center font-serif ${
                   formData.concern === c.label.split(" ")[0]
-                    ? "bg-amber-500/15 border-amber-500/80 text-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.12)]"
-                    : "bg-[#0F1121]/90 border-indigo-950/80 text-slate-400 hover:border-indigo-900 hover:text-slate-200"
+                    ? "bg-[#8C1D1D]/10 border-[#8C1D1D] text-[#8C1D1D]"
+                    : "bg-[#FAF5EB] border-[#1A1105]/20 text-[#5C5243] hover:border-[#8C1D1D]/50 hover:text-[#1A1105]"
                 }`}
               >
                 <input
@@ -453,19 +453,19 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
           <button
             type="button"
             onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-            className="text-xs text-amber-500/80 hover:text-amber-400 transition-colors flex items-center gap-1.5 focus:outline-none cursor-pointer"
+            className="text-xs text-[#8C1D1D] hover:text-[#741616] transition-colors flex items-center gap-1.5 focus:outline-none cursor-pointer font-serif"
           >
-            <Key className="w-3.5 h-3.5 animate-pulse" />
+            <Key className="w-3.5 h-3.5 animate-pulse shrink-0" />
             <span>AI 엔진 API 키 설정 (선택사항)</span>
-            <span className="text-[10px] text-slate-500">
+            <span className="text-[10px] text-[#8C8476]">
               {apiKey ? "• 설정됨" : "• 기본제공 / 개인 키 사용 가능"}
             </span>
           </button>
 
           {showApiKeyInput && (
-            <div className="mt-2.5 p-3.5 rounded-lg bg-black/40 border border-indigo-900/35 space-y-2.5">
-              <p className="text-slate-400 text-xs font-serif leading-relaxed">
-                서버 API 연결이 불안정하거나 원격 할당량이 일시 초과되었을 때, 개인 구글 <strong className="text-amber-500/95 font-medium">Gemini API 키</strong>를 등록하여 직접 통신망을 확보할 수 있습니다. 입력하신 값은 외부로 유출되지 않으며 브라우저(<span className="text-[10px] font-mono text-indigo-400">local storage</span>)에만 안전하게 저장됩니다.
+            <div className="mt-2.5 p-3.5 rounded-lg bg-[#FAF5EB] border border-[#1A1105]/20 space-y-2.5">
+              <p className="text-[#5C5243] text-xs font-serif leading-relaxed">
+                서버 API 연결이 불안정하거나 원격 할당량이 일시 초과되었을 때, 개인 구글 <strong className="text-[#8C1D1D] font-medium">Gemini API 키</strong>를 등록하여 직접 통신망을 확보할 수 있습니다. 입력하신 값은 외부로 유출되지 않으며 브라우저(<span className="text-[10px] font-mono text-[#8C1D1D]">local storage</span>)에만 안전하게 저장됩니다.
               </p>
               <div className="relative">
                 <input
@@ -473,7 +473,7 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
                   value={apiKey}
                   onChange={handleApiKeyChange}
                   placeholder="AI Studio에서 발급받은 GEMINI_API_KEY 입력..."
-                  className="w-full px-3 py-2 text-xs rounded-md bg-[#07080e] border border-indigo-900/40 text-amber-400 placeholder-slate-600 focus:outline-none focus:border-amber-500/40 transition-all font-mono"
+                  className="w-full px-3 py-2 text-xs rounded-md bg-white border border-[#1A1105]/30 text-[#8C1D1D] placeholder-[#8C8476] focus:outline-none focus:border-[#8C1D1D] transition-all font-mono"
                 />
               </div>
             </div>
@@ -482,22 +482,22 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
 
         {/* Traditional Border Divider */}
         <div className="pt-2">
-          <div className="h-px bg-indigo-900/30" />
+          <div className="h-0.5 bg-gradient-to-r from-transparent via-[#8C1D1D]/40 to-transparent" />
         </div>
 
         {/* Terms of Amusement Agreement Checklist */}
-        <div className="p-4 rounded-lg bg-black/40 border border-indigo-900/40 space-y-3">
+        <div className="p-4 rounded-lg bg-[#FAF5EB] border border-[#8C1D1D]/30 space-y-3">
           <div className="flex items-start">
             <input
               type="checkbox"
               id="agreement"
               checked={hasAgreed}
               onChange={(e) => setHasAgreed(e.target.checked)}
-              className="rounded border-indigo-950 text-amber-500 focus:ring-amber-500 accent-amber-500 bg-[#0F1121] mt-1 cursor-pointer w-4 h-4"
+              className="rounded border-[#1A1105]/30 text-[#8C1D1D] focus:ring-[#8C1D1D] accent-[#8C1D1D] mt-1 cursor-pointer w-4 h-4"
             />
-            <label htmlFor="agreement" className="text-slate-400 text-xs leading-relaxed pl-2.5 select-none cursor-pointer font-serif">
-              <span className="text-amber-500 font-bold">[확인 서명] </span>
-              신우사주는 명리학과 생성형 AI 기술을 접목한 <strong>자기성찰형 문화 엔터테인먼트</strong>이며, 절대적인 예언이 아님을 인지합니다. 의학적, 법률적, 신중한 투자 판정 등 전문 영역의 최종 판단에 사주를 대행시키지 않으며, 본인의 보조 수단으로만 감상하겠습니다.
+            <label htmlFor="agreement" className="text-[#3E3425] text-xs leading-relaxed pl-2.5 select-none cursor-pointer font-serif">
+              <span className="text-[#8C1D1D] font-bold">[확인 서명] </span>
+              신우사주는 명리학과 생성형 AI 기술을 접목한 <strong>자기성찰형 문화 엔터테인먼트</strong>이며, 절대적인 예언이 아님을 인지합니다. 의학적, 법률적, 신중한 투자 판단 등 전문 영역의 최종 판단에 사주를 대행시키지 않으며, 본인의 보조 수단으로만 감상하겠습니다.
             </label>
           </div>
         </div>
@@ -507,11 +507,11 @@ export default function BirthInfoForm({ onSubmit }: BirthInfoFormProps) {
           <button
             type="submit"
             id="btn-find-fate"
-            className="w-full px-6 py-4 rounded-lg bg-black/60 border border-amber-500/50 text-amber-400 font-serif font-bold tracking-[0.2em] text-sm md:text-base transition-all duration-300 hover:text-zinc-950 hover:bg-amber-500 hover:border-amber-500 hover:shadow-[0_0_20px_rgba(245,158,11,0.25)] cursor-pointer"
+            className="w-full px-8 py-3.5 rounded-full bg-[#8C1D1D] border-2 border-[#6e1313] text-[#FAF5EB] font-brush text-3xl md:text-4xl tracking-widest transition-all duration-300 hover:bg-[#1A1105] hover:border-black hover:scale-[1.02] cursor-pointer shadow-md"
           >
             <span className="flex items-center justify-center gap-2">
               운 명 의 사 주 첩 열 기
-              <Sparkles className="w-5 h-5" />
+              <Sparkles className="w-6 h-6 text-[#FAF5EB]" />
             </span>
           </button>
         </div>
