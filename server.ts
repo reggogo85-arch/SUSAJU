@@ -68,6 +68,55 @@ function getAiClient(customKey?: string): GoogleGenAI | null {
   }
 }
 
+// Helper to call Gemini with automatic retries and fallback models block
+async function generateSajuContentWithFallback(
+  activeAi: any,
+  options: { contents: string; temperature?: number }
+): Promise<string> {
+  const modelsToTry = ["gemini-3.5-flash", "gemini-3.1-flash-lite"];
+  let lastError: any = null;
+
+  for (const model of modelsToTry) {
+    let retries = 2; // Retry twice per model on transient errors (total 3 attempts)
+    while (retries >= 0) {
+      try {
+        console.log(`[신우사주] Attempting generation with model "${model}"... (retries left: ${retries})`);
+        const response = await activeAi.models.generateContent({
+          model: model,
+          contents: options.contents,
+          config: {
+            temperature: options.temperature ?? 0.8,
+          },
+        });
+        if (response && response.text) {
+          console.log(`[신우사주] Successfully generated content using model: ${model}`);
+          return response.text;
+        }
+      } catch (err: any) {
+        lastError = err;
+        console.warn(`[신우사주] Failed generation with ${model} (retries: ${retries}):`, err.message || err);
+
+        const errMsg = (err.message || "").toLowerCase();
+        const isTransient = errMsg.includes("503") || 
+                            errMsg.includes("unavailable") || 
+                            errMsg.includes("high demand") || 
+                            errMsg.includes("rate limit") || 
+                            errMsg.includes("429") ||
+                            err.status === 503 ||
+                            err.status === 429;
+
+        if (isTransient && retries > 0) {
+          await new Promise((resolve) => setTimeout(resolve, 800));
+          retries--;
+        } else {
+          break; // Try fallback model
+        }
+      }
+    }
+  }
+  throw lastError || new Error("All model generation attempts failed.");
+}
+
 // 1. Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", aiInitialized: !!ai });
@@ -159,15 +208,10 @@ app.post("/api/saju/reading", async (req, res) => {
   }
 
   try {
-    const response = await activeAi.models.generateContent({
-      model: "gemini-3.5-flash",
+    const text = await generateSajuContentWithFallback(activeAi, {
       contents: promptInput,
-      config: {
-        temperature: 0.85,
-      },
+      temperature: 0.85,
     });
-
-    const text = response.text || "신우 선생의 기운에 닿지 못했습니다. 잠시 후 다시 시도해 주세요.";
     res.json({ reading: text, isFallback: false });
   } catch (error: any) {
     console.error("Gemini Saju generation error:", error);
@@ -244,15 +288,10 @@ app.post("/api/saju/question", async (req, res) => {
   }
 
   try {
-    const response = await activeAi.models.generateContent({
-      model: "gemini-3.5-flash",
+    const text = await generateSajuContentWithFallback(activeAi, {
       contents: promptInput,
-      config: {
-        temperature: 0.8,
-      },
+      temperature: 0.8,
     });
-
-    const text = response.text || "기운이 흐려져 신우 선생의 답을 구하지 못했습니다.";
     res.json({ answer: text, isFallback: false });
   } catch (error: any) {
     console.error("Gemini Question error:", error);
